@@ -5,8 +5,6 @@ import java.util.Stack;
 public class Add_Or_ByOrderAdd {
 
 
-
-
 }
 
 //创建一个节点类
