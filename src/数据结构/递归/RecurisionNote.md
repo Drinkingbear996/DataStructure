@@ -49,6 +49,26 @@ class Solution {
 while(left<=right)
 指针向一步步中间靠拢，头尾挨个交换
 
+```java
+class Solution {
+
+    public void reverseString(char[] s) {
+//定义两个指针，从头和尾同时往中间走
+        int left=0,right=s.length-1;
+
+        while(left<=right)
+        {
+            char temp=s[left];
+            s[left]=s[right];
+            s[right]=temp;
+
+            left++;
+            right--;
+        }
+
+    }
+}
+```
 
 -------------------------------------------------------------------------
 
