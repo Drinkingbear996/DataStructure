@@ -1,6 +1,6 @@
-package 数据结构.栈;
+package 数据结构.栈.顺序栈和链表栈;
 
-import java.util.Scanner;
+import java.util.*;
 
 class ArrayStack
 {
@@ -89,6 +89,7 @@ public class TestStack {
 
 
 
+
         while (loop)
         {
 
@@ -123,5 +124,9 @@ public class TestStack {
             }
         }
 
+        LinkedList<String> list=new LinkedList<>();
+
     }
+
+
 }

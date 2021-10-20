@@ -1,6 +1,4 @@
 package 数据结构.栈;
-
-
 import javax.swing.table.TableRowSorter;
 
 class ArrayStack2

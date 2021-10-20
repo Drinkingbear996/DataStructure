@@ -73,7 +73,7 @@ class MinStack {
 StringBuffer s
 
 S.append(); 拼接字符串
-S.deleteCharAt(); 删除对应的字符
+S.deleteCharAt(); 删除对应符号的字符
 
 [comment]: <> (String类) 
 String S
@@ -175,3 +175,57 @@ class Solution {
 
 
 ------------------------------------------------------------------------------------
+
+#栈模拟队列
+
+定义一个输入栈和输出栈
+
+思路：请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+ 
+每pop和peek时
+  若输出栈有值，则弹出，
+  若输出栈为空，则将输入栈的值全部放入输出栈。
+
+```java
+import java.util.Stack;
+
+class MyQueue {
+
+    Stack<Integer> inStack;
+    Stack<Integer> outStack;
+
+ public MyQueue() {
+  inStack = new Stack<>();
+  outStack = new Stack<>();
+ }
+
+ public void push(int x) {
+  inStack.push(x);
+ }
+
+ public int pop() {
+  if (outStack.isEmpty()) {
+   in2out();
+  }
+  return outStack.pop();
+ }
+
+ public int peek() {
+  if (outStack.isEmpty()) {
+   in2out();
+  }
+  return outStack.peek();
+ }
+
+ public boolean empty() {
+  return inStack.isEmpty() && outStack.isEmpty();
+ }
+
+ private void in2out() {
+  while (!inStack.isEmpty()) {
+   outStack.push(inStack.pop());
+  }
+ }
+}
+
+```
