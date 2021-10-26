@@ -229,3 +229,50 @@ class MyQueue {
 }
 
 ```
+
+#基本计算器II 227
+
+```java
+class Solution {
+    public int calculate(String s) {
+        Deque<Integer> stack = new LinkedList<Integer>();
+        //初始默认为＋号
+        char preSign = '+';
+        
+        //连续数字累加
+        int num = 0;
+        int n = s.length();
+        for (int i = 0; i < n; ++i) {
+            if (Character.isDigit(s.charAt(i))) {
+                //Ascll '0'对应30 --'9'对应39 所以 '5'和 5 就差了一个'0'的值，减去即可
+                num = num * 10 + s.charAt(i) - '0'; //连续数字相加
+            }
+            //i==n-1
+            if (!Character.isDigit(s.charAt(i)) && s.charAt(i) != ' ' || i == n - 1) {
+                switch (preSign) {
+                    case '+':
+                        stack.push(num);
+                        break;
+                    case '-':
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        stack.push(stack.pop() * num);
+                        break;
+                    default:
+                        stack.push(stack.pop() / num);
+                }
+                preSign = s.charAt(i);
+                num = 0;
+            }
+        }
+        //将栈累加
+        int ans = 0;
+        while (!stack.isEmpty()) {
+            ans += stack.pop();
+        }
+        return ans;
+    }
+}
+
+```

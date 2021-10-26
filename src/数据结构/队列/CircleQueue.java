@@ -1,6 +1,10 @@
 package 数据结构.队列;
 
 //环形队列
+
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * 特点:
  * 1. front指向队列的第一个元素 初始值为0
@@ -16,7 +20,7 @@ public class CircleQueue {
     private int maxsize;    //表示数组的最大容量
     private int front;      //队列头 front指向队列的第一个元素 初始值为0
     private  int rear;      //队列尾 rear指向队列最后一个元素的后一个位置 初始值为0
-    private int  [] array;  //存放数据模拟队列
+    private int [] array;  //存放数据模拟队列
 
     public CircleQueue(int Maxsize) {
         maxsize=Maxsize;
@@ -25,6 +29,7 @@ public class CircleQueue {
 
     public boolean isFull()
     {
+        //环形队列队满
         return (rear+1)%maxsize==front;
     }
 
@@ -42,7 +47,7 @@ public class CircleQueue {
         }
 
         array[rear]=n;
-        rear=(rear+1)%maxsize; //rear后移  取模？
+        rear=(rear+1)%maxsize; //rear后移
 
     }
 
@@ -114,6 +119,6 @@ public class CircleQueue {
 
       System.out.printf("队列头为%d",circleQueue.HeadQueue());
 
-
+      Deque<String> deque=new LinkedList();
     }
 }

@@ -1,71 +1,55 @@
-//package 数据结构.栈;
-//
-//import 数据结构.队列.ArrayQueue;
-//
-//import java.util.ArrayDeque;
-//import java.util.Deque;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//public class Calculator {
-//    Map<Character,Integer> map=new HashMap<>();
-//
-//    {
-//        map.put('-',1);
-//        map.put('+',1);
-//        map.put('*',2);
-//        map.put('/',2);
-//        map.put('%',2);
-//        map.put('^',3);
-//    }
-//
-//    public int calculate(String s)
-//    {
-//        //去掉所有空格
-//        s=s.replace(" ","");
-//        char cs[]=s.toCharArray();
-//        int n=s.length();
-//
-//        //存放所有数字
-//        Deque<Integer> nums=new ArrayDeque<>();
-//        nums.addLast(0);
-//        //存放所有非数字以外的操作
-//
-//        Deque<Character> ops=new ArrayDeque<>();
-//        for (int i = 0; i < n; i++) {
-//             char c=cs[i];
-//
-//             if (c=='(')
-//             {
-//                 ops.addLast(c);
-//             }
-//             else  if (c==')')
-//             {
-//                 //计算到最近的一个左括号为止
-//                 while(!ops.isEmpty())
-//                 {
-//                     if (ops.peekLast()!='（')
-//                     {
-//                         calc(num,ops)
-//                     }
-//                     else
-//                     {
-//                         ops.pollLast();
-//                         break;
-//                     }
-//
-//                 }
-//             }
-//             else
-//             {
-//                 if (isNumber(c))
-//                 {
-//
-//                 }
-//             }
-//        }
-//
-//
-//    }
-//
-//}
+package 数据结构.栈;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Stack;
+import java.util.regex.Pattern;
+
+public class Calculator {
+
+
+        public static int calculate(String s) {
+            Deque<Integer> stack = new LinkedList<Integer>();
+            char preSign = '+';
+            int num = 0;
+            int n = s.length();
+            for (int i = 0; i < n; ++i) {
+                if (Character.isDigit(s.charAt(i))) {
+                    num = num * 10 + s.charAt(i) - '0';
+                }
+                if (!Character.isDigit(s.charAt(i)) && s.charAt(i) != ' ' || i == n - 1) {
+                    switch (preSign) {
+                        case '+':
+                            stack.push(num);
+                            break;
+                        case '-':
+                            stack.push(-num);
+                            break;
+                        case '*':
+                            stack.push(stack.pop() * num);
+                            break;
+                        default:
+                            stack.push(stack.pop() / num);
+                    }
+                    preSign = s.charAt(i);
+                    num = 0;
+                }
+            }
+            int ans = 0;
+            while (!stack.isEmpty()) {
+                ans += stack.pop();
+            }
+            return ans;
+        }
+
+
+    public static void main(String[] args) {
+
+         String s="3+2*6+2";
+         int result=calculate(s);
+
+        System.out.println(result);
+    }
+
+
+}
