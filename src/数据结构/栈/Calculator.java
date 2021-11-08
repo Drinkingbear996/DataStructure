@@ -49,6 +49,8 @@ public class Calculator {
          int result=calculate(s);
 
         System.out.println(result);
+
+
     }
 
 
