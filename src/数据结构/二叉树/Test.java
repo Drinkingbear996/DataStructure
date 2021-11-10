@@ -60,7 +60,25 @@ public class Test {
         {
             System.out.printf("没有找到 no=%d的英雄",4);
         }
+        System.out.println();
+        System.out.println("==========================删除叶子节点==========================================");
 
+        System.out.println("删除前 前序遍历");
+        binaryTree.preOrder();
+        System.out.println("删除5号节点");
+        binaryTree.DeleteNode(5);
+        System.out.println("删除后 前序遍历");
+        binaryTree.preOrder();
+
+
+        System.out.println("==========================删除非叶子节点，则删除整个子树==========================================");
+
+        System.out.println("删除前 前序遍历");
+        binaryTree.preOrder();
+        System.out.println("删除2号节点");
+        binaryTree.DeleteNode(2);
+        System.out.println("删除后 前序遍历");
+        binaryTree.preOrder();
 
     }
 
