@@ -24,16 +24,21 @@ public class RecursionTeat {
         }
       return  factorial(n-1)*n;
     }
+    //走台阶
+
+   static int f(int n) {
+        if (n == 1)
+            return 1;
+        if (n == 2)
+            return 2;
+
+        return f(n-1) + f(n-2);
+    }
 
 
     public static void main(String[] args) {
 
-//      test(10);
-        System.out.println(factorial(3));
-
-        for (int i = 0,j=0; i < 100; i++) {
-
-        }
+        System.out.println(f(6));
 
 
 
