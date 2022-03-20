@@ -8,7 +8,7 @@ import java.util.Scanner;
  * 给你一个大小为 m x n 的矩阵 mat ，请以对角线遍历的顺序，用一个数组返回这个矩阵中的所有元素。
  *
  * */
-public class 对角线遍历 {
+public class leetcode498_对角线遍历 {
 
     public static  int[] Solution(int a[][])
     {

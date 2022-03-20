@@ -1,6 +1,4 @@
 package 数据结构.数组;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -11,13 +9,13 @@ import java.util.List;
  * */
 
 //自己写出来，但花了些时间。
-public class 杨辉三角 {
+public class 杨辉三角1 {
     public static List<List<Integer>> generate(int numRows) {
 
 
         List<List<Integer>> a=new LinkedList<>();
 
-        for (int i = 1; i <=numRows; i++) {
+        for (int i = 0; i <=numRows; i++) {
             List<Integer> x=new LinkedList<>();
             for (int j = 0; j < i; j++) {
                 //特殊情况

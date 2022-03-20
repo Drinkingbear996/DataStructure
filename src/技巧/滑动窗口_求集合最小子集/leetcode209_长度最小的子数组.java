@@ -1,4 +1,4 @@
-package 技巧.快慢指针;
+package 技巧.滑动窗口_求集合最小子集;
 
 import java.util.*;
 /**
