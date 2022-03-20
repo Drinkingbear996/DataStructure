@@ -9,7 +9,7 @@ package 数据结构.字符串;
  *
  * API：
  * 返回字符串第一次出现的索引 str.indexOf(str)
- * 切割字符串，左闭右开 str.substring(0, minStr.length());
+ * 切割字符串，左闭右开 str.substring(0, minStr.length()-1);
  * */
 public class 最长公共前缀 {
 
