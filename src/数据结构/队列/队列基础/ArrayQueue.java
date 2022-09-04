@@ -1,6 +1,4 @@
-package 数据结构.队列;
-
-import java.util.Scanner;
+package 数据结构.队列.队列基础;
 
 public class ArrayQueue {
 
