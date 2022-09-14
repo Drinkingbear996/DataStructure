@@ -6,6 +6,7 @@ public class leetcode27_移除元素 {
           初始化一个快指针 fast 和一个慢指针 slow，fast 每次移动一步，而 slow 只当 fast 指向的值不等于 val 时才移动一步。
 
      * 重点：一开始慢指针先动
+     * 快指针用于遍历元素，慢指针用于符合条件的移动
      *
     题解： https://leetcode-cn.com/leetbook/read/array-and-string/cv3bv/
      * */
@@ -29,7 +30,6 @@ public class leetcode27_移除元素 {
 
         return  slow;
     }
-
     public static void main(String[] args) {
         int sums[]=new int[]{0,1,2,2,3,0,4,2};
       int len=  removeElement(sums,2);
