@@ -27,47 +27,38 @@ public class TowersOfHanoi {
 
     /**
      *        实现这个算法可以简单分为三个步骤：
-     *
-     * 　　　　（1）     把n-1个盘子由A 移到 B；
-     *
-     * 　　　　（2）     把第n个盘子由 A移到 C；
-     *
-     * 　　　　（3）     把n-1个盘子由B 移到 C；
-     *
-     * 　　　　（1）中间一步之上可以看成把A上n-1个盘子通过借助辅助塔（C塔）移到了B上，
-     *
-     *        （2）中间的一步是把最大的一个盘子由A移到C上去；
-     *
-     * 　　　　（3）中间一步之下可以看成把B上n-1个盘子通过借助辅助塔（A塔）移到了C上；
-     *
-     *
-     *
+
+ 　　（1）中间一步之上可以看成把A上n-1个盘子通过借助辅助塔（C塔）移到了B上，
+
+     （2）中间的一步是把最大的一个盘子由A移到C上去；
+
+   　（3）中间一步之下可以看成把B上n-1个盘子通过借助辅助塔（A塔）移到了C上；
+
      * */
 
-    static int m =0;//标记移动次数
+    static int mobile =0;//标记移动次数
     //实现移动的函数
-    public static void move(int disks,String N,String M)
+    public static void move(int panel,String N,String M)
     {
-        m++;
-        System.out.println("第" + m +" 次移动 : " +" 把 "+ disks+" 号圆盘从 " + N +" ->移到->  " + M);
+        mobile++;
+        System.out.println("第" + mobile +" 次移动 : " +" 把 "+ panel+" 号圆盘从 " + N +" ->移到->  " + M);
     }
     //递归实现汉诺塔的函数
-    public static void hanoi(int n,String A,String B,String C)
+    public static void function(int n,String A,String B,String C)
     {
         if(n == 1)//圆盘只有一个时，只需将其从A塔移到C塔
             TowersOfHanoi.move(1, A, C);//将编号为1的圆盘从A移到C
         else
         {
-            hanoi(n - 1, A, C, B);//递归，把A塔上编号1~n-1的圆盘移到B上，以C为辅助塔
+            function(n - 1, A, C, B);//递归，把A塔上编号1~n-1的圆盘移到B上，以C为辅助塔
             TowersOfHanoi.move(n, A, C);//把A塔上编号为n的圆盘移到C上
-            hanoi(n - 1, B, A, C);//递归，把B塔上编号1~n-1的圆盘移到C上，以A为辅助塔
+            function(n - 1, B, A, C);//递归，把B塔上编号1~n-1的圆盘移到C上，以A为辅助塔
         }
     }
     public static void main(String[] args) {
-        System.out.print("请输入圆盘的个数：");
-        int disks = 14;
-        TowersOfHanoi.hanoi(disks, "A", "B", "C");
-        System.out.println("移动了" + m + "次，把A上的圆盘都移动到了C上");
+        int panel = 14;
+        TowersOfHanoi.function(panel, "A", "B", "C");
+        System.out.println("移动了" + mobile + "次，把A上的圆盘都移动到了C上");
     }
 }
 
