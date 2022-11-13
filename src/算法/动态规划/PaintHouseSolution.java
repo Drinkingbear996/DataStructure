@@ -2,22 +2,65 @@ package 算法.动态规划;
 
 public class PaintHouseSolution {
 
-    // 求粉刷房子的最小成本
-    // n: 房屋的数量
-    // redCosts[i]表示房屋[i]需要粉刷成红色所需要的价钱，blueCosts、greenCosts同理
+    /**
+     * 问题描述：
+     *      求粉刷房子的最小成本
+     *      n: 房屋的数量
+     *      redCosts[i]表示房屋[i]需要粉刷成红色所需要的价钱，blueCosts、greenCosts同理
+     *
+     *
+     *
+     * */
+
+    /**
+     * 解题思路：
+     *          通过动态规划来求解，参考了leetcode198题的思路
+     * */
+
+
+    /**
+     * 算法描述：
+     *          1.dp[i][3]是第i个房子某个颜色以及i-1层另外两个颜色的最小值
+     *          2.初始化dp[0][1-3]
+     *          3.递推 dp[i][0] =   redCosts[i] + Math.min(dp[i - 1][1], dp[i - 1][2])
+     * */
+
+    /**
+     * 复杂度分析：
+     *
+     * 时间复杂度和空间复杂度为O（n）
+     * */
+
+    /**
+     * 讨论与总结：
+     *      动态规划需要先确定dp的含义吧，想着想着容易混淆，然后再确认递推公式，
+     *   最后是进行初始化，感觉很多题都要手动初始化i=0的情况，从i=1开始递推。
+     * */
+
     public int minCost(int n, int[] redCosts, int[] blueCosts, int[] greenCosts) {
         // TODO 请完成minCost方法的代码实现
 
-        int d[]=new int[n];
+        //dp数组代表着第i个房子，
+        int dp[][]=new int[n][3];
+        dp[0][0] = redCosts[0];
+        dp[0][1] = blueCosts[0];
+        dp[0][2] = greenCosts[0];
 
-        d[0]=Math.min(Math.min(redCosts[0],blueCosts[0]),greenCosts[0]);
-        d[1]=Math.min(Math.min(redCosts[0],blueCosts[0]),greenCosts[0]);
+        for (int i = 1; i < n; i++) {
 
-        for (int i = 2; i < redCosts.length; i++) {
-            int min=Math.min(Math.min(redCosts[i],blueCosts[i]),greenCosts[i]);
+      //
+            //如果选的是红色，选前面另外两个元素的最小值，所以要初始化
+            dp[i][0] =   redCosts[i] + Math.min(dp[i - 1][1], dp[i - 1][2]);
+
+            //如果选的是蓝色
+            dp[i][1] =  blueCosts[i] + Math.min(dp[i - 1][2], dp[i - 1][0]) ;
+
+            //如果选的是绿色
+            dp[i][2] =  greenCosts[i] + Math.min(dp[i - 1][0], dp[i - 1][1]) ;
 
         }
-        return -1;
+
+        return Math.min(Math.min(dp[n - 1][0], dp[n - 1][1]), dp[n - 1][2]);
     }
 
     public static void main(String[] args) {
