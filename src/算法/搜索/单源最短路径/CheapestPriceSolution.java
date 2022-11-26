@@ -1,29 +1,31 @@
-package 算法.单源最短路径;
-
+package 算法.搜索.单源最短路径;
 
 import java.util.*;
 
-public class CheapestPriceSolution {
+class Node  implements Comparator<Node>{
+    // 名称
+    String name;
 
-    // 1. 需要创建“节点”对象
-    // 2. 需要维护一个哈希表，用于名称->对象的查询
-    // 3. 需要维护一个对象数组，并应用插入排序
+    // 所有从当前节点出发的航班信息
+    ArrayList<Flight> trips = new ArrayList<>();
 
-    class Node {
-        // 名称
-        String name;
+    // 最终算出从开始节点到该节点的总路径长度（总票价）
+    int cost = Integer.MAX_VALUE; // 一开始为无穷大
 
-        // 所有从当前节点出发的航班信息
-        ArrayList<Flight> trips = new ArrayList<>();
-
-        // 最终算出的到该节点的总路径长度（总票价）
-        int cost = -1; // -1表示还未搜索到
-
-        // 构造方法
-        Node(String name) {
-            this.name = name;
-        }
+    // 构造方法
+    Node(String name) {
+        this.name = name;
     }
+    Node() {}
+    //实现comparator升序排列，优先规则：从左到右，从小到大
+    //小的返回-1
+    @Override
+    public int compare(Node o1, Node o2) {
+        return o1.cost <= o2.cost ? -1 : 1;
+    }
+}
+
+public class CheapestPriceSolution  {
 
     /**
      * 计算最便宜的机票总价钱
@@ -37,7 +39,7 @@ public class CheapestPriceSolution {
         int ans = -1;
 
         // 首先对数据进行初始化的创建
-        HashMap<String, Node> nodeMap = new HashMap<>();
+        HashMap<String, Node> nodeMap = new HashMap<>(n);
 
         // 将数据初始化到nodeMap
         for (Flight fi : flights) {
@@ -56,36 +58,70 @@ public class CheapestPriceSolution {
             }
         }
 
-        // 维护一个数组，储存已经搜索过的终点（红色和蓝色的节点，实际存的元素总数为size）
-        Node[] sort = new Node[n];
+        //优先队列
+        PriorityQueue<Node> pq=new PriorityQueue<>(new Node());
+
+        //查看节点是否被访问
+        Set<String> seen=new HashSet<>();
+
+
+        //存储开始节点到某个节点的最短路径中，前一个节点是什么
+        HashMap<String,String>  parent=new HashMap<>();
 
         // 初始化，将起点放入数组
         Node start_node = nodeMap.get(src);
-        sort[0] = start_node;
+
+        //首个节点无前置节点
+        parent.put(src,null);
+
+
+        // 存储某个节点到初始点的距离 cost默认Integer_MAX.开始节点为0
         start_node.cost = 0;
-        int size = 1;
 
-        for (int i = 0; i < n; i++) {
-            // 当前sort[i]就是当前要标记的红色节点
-            Node snode = sort[i];
+        //入队
+        pq.add(start_node);
 
-            if (snode.name == dst) {
-                // 得到终点结果
-                return snode.cost;
+        while(pq.size() > 0){
+
+              //当前顶点
+            Node pair=pq.poll();
+              //当前节点到开始节点的距离
+            int dist=pair.cost;
+
+            //当前节点
+            String vertex=pair.name;
+            //设置为已访问
+            seen.add(vertex);
+
+            //所有邻接节点
+            ArrayList<Flight> trips = pair.trips;
+
+            for(Flight i:trips){
+
+                //遍历由vertex出发的所有邻接节点
+                Node neighbor=nodeMap.get(i.getEnd());
+
+                //查看是否被访问过
+                if (!seen.contains(neighbor.name)){
+                    //当前价格
+                    int newPrice=dist+i.getPrice();
+                    //计算价格
+                    int oldPrice=neighbor.cost;
+
+                     if(newPrice < oldPrice){
+                         //入队
+                         pq.add(neighbor);
+                         //更新parent
+                         parent.put(neighbor.name,vertex);
+                         //更新价格
+                         neighbor.cost=newPrice;
+                     }
+                }
             }
-
-            // TODO 搜索从snode出发的所有路径，将其标记为蓝色点并计算最短路径
 
         }
 
-        // // 删掉以下四行测试代码，并补充完整程序代码
-        // System.out.println("所有的航班信息:");
-        // for (Flight f: flights)
-        //     System.out.println(f.getStart() + " -> " + f.getEnd() + " = ￥" + f.getPrice());
-        // System.out.println("起点：【" + src + "】   终点：【" + dst + "】");
-
-        // 返回结果：ans表示最便宜票价（即最短路径长度）
-        return ans;
+        return nodeMap.get(dst).cost;
     }
 
     // 运行测试用例并输出结果
@@ -102,9 +138,9 @@ public class CheapestPriceSolution {
 
         // 计算最便宜票价
         int r = findCheapestPrice(n, flights, src, dst);
-
+        
         // 输出计算结果
-        System.out.printf("\n测试用例#%d:\n从起点【%s】飞往终点【%s】的最便宜价格为：%d\n", number++, src, dst, r);
+        System.out.printf("\n测试用例#%d:\n从起点【%s】飞往终点【%s】的最便宜价格为：%d\n", number++, src, dst, r);       
     }
     private static int number = 0;
 

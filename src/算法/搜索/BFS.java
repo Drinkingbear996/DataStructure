@@ -3,11 +3,23 @@ package 算法.搜索;
 /**
  * 参考文章:https://blog.csdn.net/qq_37482202/article/details/89513877
  *      BFS
- *      特点：它并不考虑结果的可能位置，彻底地搜索整张图，直到找到结果为止
+ *      特点：它并不考虑结果的可能位置，彻底地搜索整张图，直到找到结果为止（一层层的遍历）
+ *
+ *
+
  *
  *      可以解决：
  *              第一类问题：从节点A出发，有前往节点B的路径吗？（在你的人际关系网中，有芒果销售商吗？）
  *              第二类问题：从节点A出发，前往节点B的哪条路径最短？（哪个芒果销售商与你的关系最近？）
+ *
+ *
+ *              编写国际跳棋AI，计算最少走多少步就可获胜；
+ *              编写拼写检查器，计算最少编辑多少个地方就可将错拼的单词改成正确的单词，如将READED改为READER需要编辑一个地方；
+ *              根据你的人际关系网络找到关系最近的医生。
+ *
+ *
+ *
+ *
  *
  *      思路：先搜索你，如果不是目标，搜索你的朋友，在搜索你朋友的朋友，
  *
@@ -24,7 +36,8 @@ package 算法.搜索;
  *
  *      HashMap<String,String[]> hashMap=new HashMap<>();  运用散列表hashmap来记录你映射到所有节点。形成图。
  *
- *      List<String> hasSearchList = new ArrayList<>();    利用hasSearchList.contains()，查看每次寻找的节点是否被访问过，防止死循环
+ *      List<String> hasSearchList = new ArrayList<>();
+ *      利用hasSearchList.contains()，查看每次寻找的节点是否被访问过，防止死循环
  *
  *      node表示每一个节点，id:节点名  parent：他的上一级
  *
@@ -46,7 +59,7 @@ public class BFS {
 
 
     public static void main(String[] args) {
-        //添加每一个人以及他的朋友;
+        //添加每一个人以及他的朋友 构造图;
 
         HashMap<String,String[]> hashMap=new HashMap<>();
         hashMap.put("YOU",new String[]{"CLAIRE","ALICE","BOB"});
@@ -108,8 +121,10 @@ public class BFS {
             }
             hasSearchList.add(node.id);
             //添加某一个节点的所有朋友
-            if (map.get(node.id) != null && map.get(node.id).length > 0) {
-                for (String childId : map.get(node.id)) {
+            String friendCount[]=map.get(node.id);
+
+            if (friendCount != null && friendCount.length > 0) {
+                for (String childId : friendCount) {
                     queue.offer(new Node(childId,node));
                 }
             }
