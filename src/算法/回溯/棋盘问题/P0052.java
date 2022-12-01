@@ -1,3 +1,5 @@
+package 算法.回溯.棋盘问题;
+
 import java.util.HashSet;
 
 // 51题：需要输出具体的题解方案
@@ -48,5 +50,13 @@ public class P0052 {
         this.N = n;
         dfs(0);
         return answerCount;
+    }
+
+    public static void main(String[] args) {
+        long start=System.currentTimeMillis();
+        P0052 p=new P0052();
+        p.totalNQueens(16);
+        long end=System.currentTimeMillis();
+        System.out.println("耗时"+(end-start)+"ms");
     }
 }
