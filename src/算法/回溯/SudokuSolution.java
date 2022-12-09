@@ -6,60 +6,110 @@ public class SudokuSolution {
     // 其他全局变量...
 
     // TODO 在这里定义工具、辅助方法
-    // 初始化，根据矩阵中已经填好的数字设置状态
-    void init(int[][] board) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) 
-                if (board[i][j] > 0) {
-                    // TODO 在这里完成剩余代码
-                    // ...
-                } 
+    private boolean solveSudokuHelper(int[][] board){
+        //一个for循环遍历棋盘的行，一个for循环遍历棋盘的列，
+        // 一行一列确定下来之后，把9个数字都试一下
+        for (int i = 0; i < 9; i++){ // 遍历行
+            for (int j = 0; j < 9; j++){ // 遍历列
+
+                if (board[i][j] != 0){ // 跳过原始数字,添加结果数组
+                    continue;
+                }
+
+                for (int k = 1; k <= 9; k++){ // (i, j) 这个位置放k是否合适
+                    if (isValidSudoku(i, j, k, board)){
+                        board[i][j] = k;
+
+                        if (solveSudokuHelper(board)){ // 如果找到合适一组立刻返回
+                            return true;
+                        }
+                        board[i][j] = 0;
+                    }
+                }
+                // 9个数都试完了，都不行，那么就返回false
+                return false;
+                // 因为如果一行一列确定下来了，这里尝试了9个数都不行，说明这个棋盘找不到解决数独问题的解
+
+            }
         }
+        // 遍历完没有返回false，说明找到了合适棋盘位置了
+        return true;
     }
-    // 其他方法...
 
-    // 回溯解数独dfs：当前求解第i行第j列格子的数字
-    // board为9x9矩阵，遵循以下规则：
-    // 数字 1-9 在每一行只能出现一次。
-    // 数字 1-9 在每一列只能出现一次。
-    // 数字 1-9 在每一个 3x3 宫内只能出现一次。
-    // board中已填的数字用1-9表示，未填的数字用0表示
-    // 请将board中所有0的位置填写相应的数字，使得整个矩阵为一个有效的数独
-    void dfs(int[][] board, int i, int j) {
-        if (i == 9) { // 遍历完数独矩阵，即得到正确解
-            solved = true;
-            return;
+    /**
+     * 判断棋盘是否合法有如下三个维度:
+     *     同行是否重复
+     *     同列是否重复
+     *     9宫格里是否重复
+     * @param board 棋盘二维数组
+     * @param col   当前格子的纵坐标
+     * @param row   当前格子的横坐标
+     * @param val   当前格子的测试值
+     */
+    private boolean isValidSudoku(int row, int col, int val, int[][] board){
+        // 同行是否重复
+        for (int i = 0; i < 9; i++){
+            if (board[row][i] == val){
+                return false;
+            }
         }
-
-        // 先计算下一个格子的位置
-        int next_i = i, next_j = j + 1;
-        if (next_j == 9) {
-            next_j = 0;
-            next_i++;
+        // 同列是否重复
+        for (int j = 0; j < 9; j++){
+            if (board[j][col] == val){
+                return false;
+            }
         }
-        
-        if (board[i][j] == 0) {
-            // TODO 在这里完成剩余代码
-            // ...
-        } else {
-            // 当前格子存在数字，不需要搜索
-            dfs(board, next_i, next_j); // 深度优先搜索下一个格子
-            if (solved) return; // 若搜索结束后已经得到正确解，直接返回
+        // 9宫格里是否重复
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int i = startRow; i < startRow + 3; i++){
+            for (int j = startCol; j < startCol + 3; j++){
+                if (board[i][j] == val){
+                    return false;
+                }
+            }
         }
+        return true;
     }
 
     // 力扣37.解数独 入口方法
-    public void solveSudoku(char[][] board) {
-        int[][] nb = new int[9][9];
-        for (int i = 0; i < 9; ++i)
-            for (int j = 0; j < 9; ++j)
-                nb[i][j] = board[i][j] == '.' ? 0 : board[i][j] - '0';
-        dfs(nb, 0, 0);
-        for (int i = 0; i < 9; ++i)
-            for (int j = 0; j < 9; ++j)
-                board[i][j] = (char)(nb[i][j] + 48);
+    public void solveSudoku(int[][] board) {
+
+            solveSudokuHelper(board);
     }
 
+    /**
+     * 问题描述：
+     *        求解内容：求解数独，只有一个解
+     *        输入：int[][]board
+     *        输出：遍历 board
+     *
+     * */
+
+    /**
+     * 解题思路：
+     *         1.在数组中，若board[i][j]=0,则在1-9中选择元素放入数独中
+     *         2.检查行列，九宫格是否有重复的，有则选择下一个元素检查，重复2
+     *         3.直到遍历完所有board[i][j]
+     * */
+
+
+    /**
+     * 时间复杂度：O(mn) mn为数独棋盘行和列
+     * 空间复杂度O(1)
+     * */
+
+    /**
+     * 算法描述：
+     *          1.验证数独中某个格子该不该填某个数，遍历九宫格，行和列
+     *          2.在solveSudokuHelper方法中递归寻找问题的解，如果数独没有解则会返回false，不会无限递归
+     *
+     * */
+    /**
+     * 讨论和总结：
+     *           1.在leetcode_36中学到了如何遍历九宫格和每一行，每一列
+     *           2.用递归求解数独的有效解
+     * */
     public static void main(String[] args) {
         String name = "黄威朝"; // TODO 改成你自己的名字
         SudokuSolution sln = new SudokuSolution();
@@ -67,7 +117,8 @@ public class SudokuSolution {
 
 
         int[][] board = new int[][] {new int[] {5,3,0,0,7,0,0,0,0},new int[] {6,0,0,1,9,5,0,0,0},new int[] {0,9,8,0,0,0,0,6,0},new int[] {8,0,0,0,6,0,0,0,3},new int[] {4,0,0,8,0,3,0,0,1},new int[] {7,0,0,0,2,0,0,0,6},new int[] {0,6,0,0,0,0,2,8,0},new int[] {0,0,0,4,1,9,0,0,5},new int[] {0,0,0,0,8,0,0,7,9}};
-        sln.dfs(board, 0, 0);
+        sln.solveSudoku(board);
+
         System.out.println("我的答案：");
         for (int i = 0; i < 9; ++i) {
             for (int j = 0; j < 9; ++j)

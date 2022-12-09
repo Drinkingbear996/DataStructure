@@ -8,7 +8,7 @@ public class P0052 {
     // 用全局变量存储答案和中间状态
     int N;
     int answerCount = 0; // 答案解的个数
-
+    int times=0;
     // 记录行、列、斜线是否已放置皇后
     // 因为遍历是按行的顺序，所以不需要检查状态
     HashSet<Integer> columns = new HashSet<>();
@@ -26,6 +26,7 @@ public class P0052 {
 
         // 回溯
         for (int y = 0; y < N; y++) {
+            times++;
             if (!columns.contains(y) &&
                 !leftX.contains(x - y) &&
                 !rightX.contains(x + y)) {
@@ -57,6 +58,8 @@ public class P0052 {
         P0052 p=new P0052();
         p.totalNQueens(16);
         long end=System.currentTimeMillis();
-        System.out.println("耗时"+(end-start)+"ms");
+        System.out.println("解的个数为："+p.answerCount);
+        System.out.println("耗时："+(end-start)+"ms");
+        System.out.println("搜索次数："+p.times);
     }
 }
